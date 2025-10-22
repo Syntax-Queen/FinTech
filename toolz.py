@@ -45,5 +45,22 @@ def send_email(subject, receiver, text_body, html_body):
         return False
     msg = MIMEMultipart("alternative")
     msg ["Subject"] = subject
+    msg ["From"] = sender
+    msg ["To"] = receiver
+
+    msg.attach(MIMEText(text_body, "plain"))
+    msg.attach(MIMEText(html_body, "html"))
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(sender, password)
+            server.sendmail(sender, receiver, msg.as_string())
+
+        return True
+    except Exception as e:
+        print(f'Email sending failed : {e}')
+        return False
+    
 
     

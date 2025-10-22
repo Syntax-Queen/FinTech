@@ -1,18 +1,22 @@
-from datetime import datetime, timedelte
+from datetime import datetime, timedelta
 import os
-
 import jwt
 from app import db
-from werzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
-    id = db.Column(db.integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     phone = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     nin = db.Column(db.String(30), unique=True, nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    #  # verify phone number
+    # is_phone_verified = db.Column(db.Boolean, default=False)
+    # phone_otp = db.Column(db.String(6), nullable=True)
+    # otp_expires_at = db.Column(db.DateTime, nullable=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -48,12 +52,12 @@ class User(db.Model):
                     payload = jwt.decode(token, os.environ.get('SECRET_KEY'), algorithms=['HS256'])
                 user = User.query.get(payload['id'])
                 return user
-        except jwt.ExpiredSignatureError:
-            print("Token has expired")
-            return None
-        except jwt.DecodeError:
-            print("Token is invalid")
-            return None
+            except jwt.ExpiredSignatureError:
+                print("Token has expired")
+                return None
+            except jwt.DecodeError:
+                print("Token is invalid")
+                return None
 
 
        
@@ -69,3 +73,5 @@ class PasswordResetToken(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     used = db.Column(db.Boolean, nullable=False, default=False)
     generated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+
+   
