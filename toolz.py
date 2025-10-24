@@ -1,7 +1,11 @@
 import random 
 import re
+import os
 import string
-
+from flask_mail import Message
+from app import mail
+from config import Config
+import smtplib
 def validate_email(email):
     if email is None:
         return False
@@ -36,31 +40,8 @@ def validate_phone_update(existing_phone, new_phone):
 
 # Email Sender function
 def send_email(subject, receiver, text_body, html_body):
-    sender = os.getenv("MAIL_USERNAME")
-    password = os.getenv("MAIL_PASSWORD")
-
-
-    if not sender or not password:
-        print("email credentail missing in .env")
-        return False
-    msg = MIMEMultipart("alternative")
-    msg ["Subject"] = subject
-    msg ["From"] = sender
-    msg ["To"] = receiver
-
-    msg.attach(MIMEText(text_body, "plain"))
-    msg.attach(MIMEText(html_body, "html"))
-
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(sender, password)
-            server.sendmail(sender, receiver, msg.as_string())
-
-        return True
-    except Exception as e:
-        print(f'Email sending failed : {e}')
-        return False
-    
-
+    msg = Message(subject=subject, sender=('FinTech', Config.MAIL_USERNAME), recipients=[receiver])
+    msg.body = text_body
+    msg.html = html_body
+    mail.send(msg)
     

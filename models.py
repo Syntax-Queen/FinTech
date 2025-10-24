@@ -13,10 +13,6 @@ class User(db.Model):
     password_hash = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-    #  # verify phone number
-    # is_phone_verified = db.Column(db.Boolean, default=False)
-    # phone_otp = db.Column(db.String(6), nullable=True)
-    # otp_expires_at = db.Column(db.DateTime, nullable=True)
 
     def __repr__(self):
         return f'<User {self.email}>'

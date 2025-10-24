@@ -1,7 +1,7 @@
 from app import app, db
 from flask import Flask, jsonify, request
 from flask_cors import cross_origin 
-from toolz import random_generator, validate_email
+from toolz import random_generator, validate_email, send_email
 from models import User
 # from auth import auth
 from datetime import datetime, timedelta
@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 @app.route('/signup', methods=['POST'])
-# @cross_origin/
+# @cross_origin()
 def signup():
     data = request.json
     username = data.get('username')
@@ -24,10 +24,10 @@ def signup():
     if not all([username, phone, email, password, nin]):
         return jsonify({'error': 'All field (username, phone, email, password, nin) are required.'}), 400
 
-    if not username and len(username) < 3:
+    if not username or len(username) < 3:
         return jsonify({'error': 'Username must be at least 3 characters long.'}), 400
 
-    if not phone and not str(phone).isdigit():
+    if not phone or not str(phone).isdigit():
         return jsonify({'error': 'Phone number must contain only digits'}), 400
 
     if not validate_email(email):
@@ -44,25 +44,25 @@ def signup():
 
     # check if phone or email already exists
     existing_user = User.query.filter(
-        (User.phone == phone) | (User.email == email)
+        (User.phone == phone) | (User.email == email) | (User.username == username)
     ).first()
 
     if existing_user:
-        return jsonify({'error': 'User with this phone or email already exists.'}), 400
+        return jsonify({'error': 'User with this username, phone or email already exists.'}), 400
 
     new_user = User(
-        id=str(uuid.uuid4()),
         username=username,
         phone=phone,
         email=email,
         nin=nin,
     )
-    new_user.set_password(password)
     db.session.add(new_user)
+    new_user.set_password(password)
+
 
     try:
         db.session.commit()
-
+        
         # send welcome email
         subject = "Welcome to Fin Tech  Your Identity-Protected Payment Platform 🔒"
 
@@ -150,14 +150,16 @@ def signup():
         </body>
         </html>
         """
+        text_body = f"Welcome to Fin Tech, {username}! You can now explore secure identity-protected payments on our platform."
 
-        email_sent = send_email(subject, email, text_body, html_body)
+        send_email(subject=subject, receiver=email, html_body=html_body, text_body=text_body)
 
-        if email_sent:
+        if send_email:
             return jsonify({'success': True, 'message': 'Account created and welcome email sent successfully.'}), 201
         else:
             return jsonify({'success': True, 'message': 'Account created, but failed to send email'}), 201
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': f'User signup error: {e}'}), 500
+        app.logger.error(f"Signup failed: {e}", exc_info=True)
+        return jsonify({'error': f'User signup error: {str(e)}'}), 500
