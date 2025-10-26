@@ -1,6 +1,6 @@
-# Fin_hide
+# FinTech
 
-Fin hide is a privacy first payments web app that hides users' real names when they send money, showing only a username to vendors and receivers.
+FinTech is a privacy first payments web app that hides users' real names when they send money, showing only a username to vendors and receivers.
 
 ---
 
@@ -12,7 +12,7 @@ Many people avoid cashless transactions because their legal name or identifying 
 
 ## Proposed Solution
 
-Fin hide allows users to transact without exposing their full legal name. Users register with verified identity data (phone, NIN, BVN, biometrics) while the platform displays only a chosen username to vendors or receivers. The system maintains regulatory compliance and transaction traceability internally while protecting user-facing identity.
+Fin hide allows users to transact without exposing their full legal name. Users register with verified identity data (phone, NIN, BVN, biometrics, email) while the platform displays only a chosen username to vendors or receivers. The system maintains regulatory compliance and transaction traceability internally while protecting user facing identity.
 
 ---
 
@@ -51,8 +51,8 @@ Fin hide allows users to transact without exposing their full legal name. Users 
 
 ## High-level Architecture
 
-1. **Frontend**: React or HTML/Bootstrap; optionally a PWA for mobile-like experience.
-2. **Backend**: Python (Flask/FastAPI) — handles authentication, KYC workflows, payments orchestration, and business logic.
+1. **Frontend**: JavaScript (React),  Css (Tailwind); optionally a PWA for mobile like experience.
+2. **Backend**: Python (Flask) — handles authentication, KYC workflows, payments orchestration, and business logic.
 3. **Database**: PostgreSQL for transactional data. Encrypted store or column-level encryption for PII.
 4. **Identity & Biometrics**: Vetted third-party provider for face/fingerprint scanning or government APIs.
 5. **Payments**: Paystack, Flutterwave, or bank APIs for transfers, airtime, and utilities.
