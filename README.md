@@ -44,7 +44,7 @@ Fin hide allows users to transact without exposing their full legal name. Users 
 
 - Encrypt all personally identifiable information (PII) including full name, NIN, BVN, email, and biometrics.
 - Strict access control and audit trails for PII access.
-- Build KYC/AML flows that meet local regulatory requirements (Nigeria — BVN, NIN linkage) and keep logs for compliance.
+- Build KYC/AML flows that meet local regulatory requirements (Nigeria - BVN, NIN linkage) and keep logs for compliance.
 - Provide clear privacy policy and user consent screens explaining data collection, purpose, and usage.
 
 ---
