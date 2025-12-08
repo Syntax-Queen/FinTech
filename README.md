@@ -21,11 +21,11 @@ Fin hide allows users to transact without exposing their full legal name. Users 
 - **Account Creation & Verification**
     - Register with **phone number**, username, and email.
     - Collect and verify **NIN** and **BVN** for KYC/AML compliance.
-    - Optional identity-proofing biometrics: **face scan** and **fingerprint** for secure login.
+    - Optional identity proofing biometrics: **face scan** and **fingerprint** for secure login.
     - Email notifications for welcome and token delivery.
     
 - **Privacy-first Display**
-    - Hide the user's full legal name; display only the user-chosen **username** to vendors and receivers.
+    - Hide the user's full legal name; display only the user chosen **username** to vendors and receivers.
 
 - **Payments**
     - Send money to other users or vendors using username or phone number.
