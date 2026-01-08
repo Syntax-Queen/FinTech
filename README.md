@@ -53,7 +53,7 @@ Fin hide allows users to transact without exposing their full legal name. Users 
 
 1. **Frontend**: JavaScript (React),  Css (Tailwind); optionally a PWA for mobile like experience.
 2. **Backend**: Python (Flask) — handles authentication, KYC workflows, payments orchestration, and business logic.
-3. **Database**: PostgreSQL for transactional data. Encrypted store or column-level encryption for PII.
+3. **Database**: PostgreSQL for transactional data. Encrypted store or column level encryption for PII.
 4. **Identity & Biometrics**: Vetted third-party provider for face/fingerprint scanning or government APIs.
 5. **Payments**: Paystack, Flutterwave, or bank APIs for transfers, airtime, and utilities.
 6. **Hosting & Infra**: Dockerized services on AWS/GCP/Azure with KMS for encryption keys.
